@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Neon XR Lobby</title>
+
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+    <style>
+      body { margin: 0; overflow: hidden; font-family: sans-serif; }
+      .clickable { cursor: pointer; }
+    </style>
+  </head>
+
+  <body>
+
+    <a-scene background="color: black" vr-mode-ui="enabled: true">
+
+      <!-- 🌌 WORLD -->
+      <a-entity id="world"></a-entity>
+
+      <!-- 💡 STRONGER LIGHT (prevents dull gray look) -->
+      <a-light type="ambient" color="#ffffff" intensity="1.2"></a-light>
+      <a-light type="directional" position="1 2 1" intensity="0.8"></a-light>
+
+      <!-- 🎥 CAMERA -->
+      <a-entity position="0 1.6 0">
+        <a-camera></a-camera>
+      </a-entity>
+
+      <!-- 📦 BANNER -->
+      <a-entity position="0 2 -4">
+        <a-box width="3" height="1" depth="0.2" color="#000000"></a-box>
+        <a-text value="GLB BANNER AREA"
+                color="#00ffff"
+                align="center"
+                width="6"
+                position="0 0 0.2"></a-text>
+      </a-entity>
+
+      <!-- 🧭 MENU -->
+      <a-entity id="menu" position="0 1.2 -3">
+
+        <a-text value="GAMES"
+                color="#ff00ff"
+                width="4"
+                position="-1.5 0 0"
+                class="clickable"
+                onclick="showPage('games')"></a-text>
+
+        <a-text value="SHOP"
+                color="#00ffff"
+                width="4"
+                position="0 0 0"
+                class="clickable"
+                onclick="showPage('shop')"></a-text>
+
+        <a-text value="MAGIC"
+                color="#ffff00"
+                width="4"
+                position="1.5 0 0"
+                class="clickable"
+                onclick="showPage('magic')"></a-text>
+
+      </a-entity>
+
+      <!-- PAGES -->
+      <a-entity id="gamesPage" visible="false">
+        <a-text value="🎮 GAMES" color="#ff00ff"></a-text>
+        <a-text value="Back" onclick="showPage('menu')"></a-text>
+      </a-entity>
+
+      <a-entity id="shopPage" visible="false">
+        <a-text value="🛒 SHOP" color="#00ffff"></a-text>
+        <a-text value="Back" onclick="showPage('menu')"></a-text>
+      </a-entity>
+
+      <a-entity id="magicPage" visible="false">
+        <a-text value="✨ MAGIC" color="#ffff00"></a-text>
+        <a-text value="Back" onclick="showPage('menu')"></a-text>
+      </a-entity>
+
+    </a-scene>
+
+    <script>
+      function showPage(page) {
+        document.getElementById("menu").setAttribute("visible", page === "menu");
+        document.getElementById("gamesPage").setAttribute("visible", page === "games");
+        document.getElementById("shopPage").setAttribute("visible", page === "shop");
+        document.getElementById("magicPage").setAttribute("visible", page === "magic");
+      }
+
+      // 🌈 PURE NEON GLITTER (NO GRAY ALLOWED)
+      const world = document.getElementById("world");
+
+      const colors = [
+        "#ff00ff", "#00ffff", "#ffff00",
+        "#ff2d55", "#00ff88", "#6a00ff",
+        "#00aaff", "#ff8800"
+      ];
+
+      const count = 1200;
+
+      for (let i = 0; i < count; i++) {
+        const box = document.createElement("a-box");
+
+        const x = (Math.random() - 0.5) * 28;
+        const y = (Math.random() - 0.5) * 18;
+        const z = (Math.random() - 0.5) * 28;
+
+        const size = Math.random() * 0.045 + 0.015;
+
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        box.setAttribute("position", `${x} ${y} ${z}`);
+        box.setAttribute("width", size);
+        box.setAttribute("height", size);
+        box.setAttribute("depth", size);
+
+        // 🔥 KEY FIX: strong color, no dull shading tricks
+        box.setAttribute("color", color);
+        box.setAttribute("metalness", 0);
+        box.setAttribute("roughness", 0);
+
+        world.appendChild(box);
+      }
+
+      // 🌌 SOFT GLOBAL DRIFT
+      let t = 0;
+
+      function animate() {
+        t += 0.00025;
+
+        world.setAttribute(
+          "position",
+          `${Math.sin(t) * 0.18} ${Math.cos(t * 0.7) * 0.12} ${Math.sin(t * 0.6) * 0.18}`
+        );
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    </script>
+
+  </body>
+</html>

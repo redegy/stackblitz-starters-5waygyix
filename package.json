@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My WebXR Brand</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+
+    <script>
+      // Simple orbit animation for glitter boxes
+      AFRAME.registerComponent('orbit', {
+        schema: { radius: {default: 3}, speed: {default: 0.5}, offset: {default: 0} },
+        tick: function (time) {
+          const t = time / 1000 * this.data.speed + this.data.offset;
+          const x = Math.cos(t) * this.data.radius;
+          const z = Math.sin(t) * this.data.radius;
+          this.el.setAttribute('position', { x: x, y: this.el.object3D.position.y, z: z });
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <a-scene background="color: black">
+
+      <!-- Camera -->
+      <a-entity position="0 1.6 0">
+        <a-camera>
+          <a-cursor color="#FFF"></a-cursor>
+        </a-camera>
+      </a-entity>
+
+      <!-- LIGHT -->
+      <a-light type="ambient" intensity="0.8"></a-light>
+
+      <!-- YOUR GLB MODEL (replace path) -->
+      <a-entity 
+        gltf-model="url(your-model.glb)" 
+        position="0 1.6 -3" 
+        scale="1 1 1">
+      </a-entity>
+
+      <!-- MENU BUTTONS -->
+      <a-entity position="0 0.8 -3">
+
+        <a-box position="-1.2 0 0" depth="0.2" height="0.4" width="0.8" color="#FF4D6D"
+               class="clickable"
+               onclick="alert('Games clicked')">
+          <a-text value="Games" align="center" position="0 0 0.15" scale="1.5 1.5 1.5"></a-text>
+        </a-box>
+
+        <a-box position="0 0 0" depth="0.2" height="0.4" width="0.8" color="#4CC9F0"
+               onclick="alert('Shop clicked')">
+          <a-text value="Shop" align="center" position="0 0 0.15" scale="1.5 1.5 1.5"></a-text>
+        </a-box>
+
+        <a-box position="1.2 0 0" depth="0.2" height="0.4" width="0.8" color="#72EFDD"
+               onclick="alert('Contact clicked')">
+          <a-text value="Contact" align="center" position="0 0 0.15" scale="1.5 1.5 1.5"></a-text>
+        </a-box>
+
+      </a-entity>
+
+      <!-- GLITTER ORBITING BOXES -->
+      <a-entity id="glitter">
+
+        <!-- Repeat boxes with different offsets -->
+        <a-box color="#FF006E" depth="0.1" height="0.1" width="0.1"
+               position="1 2 -3"
+               orbit="radius: 2; speed: 0.6; offset: 0">
+        </a-box>
+
+        <a-box color="#8338EC" depth="0.1" height="0.1" width="0.1"
+               position="-1 1.5 -3"
+               orbit="radius: 2.5; speed: 0.4; offset: 2">
+        </a-box>
+
+        <a-box color="#3A86FF" depth="0.1" height="0.1" width="0.1"
+               position="0 2.2 -3"
+               orbit="radius: 3; speed: 0.7; offset: 4">
+        </a-box>
+
+        <a-box color="#00F5D4" depth="0.1" height="0.1" width="0.1"
+               position="0.5 1.8 -3"
+               orbit="radius: 2.2; speed: 0.5; offset: 1">
+        </a-box>
+
+      </a-entity>
+
+    </a-scene>
+  </body>
+</html>
