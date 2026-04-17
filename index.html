@@ -47,49 +47,78 @@
   </a-entity>
 
   <!-- 🧭 MENU -->
-<a-entity id="menu" position="-0.3 2 -3">
+<!-- 🏠 MENU ROOM -->
+<a-entity id="menuRoom" visible="true">
+  <a-entity id="menu" position="-0.3 2 -3">
 
-  <a-text value="GAMES"
-    color="white"
-    width="4"
-    scale="1.4 1.4 1.4"
-    position="-1.5 0 0"
-    class="clickable"
-    onclick="openGames()"></a-text>
+    <a-text value="GAMES"
+      color="white"
+      width="4"
+      scale="1.4 1.4 1.4"
+      position="-1.5 0 0"
+      class="clickable"
+      onclick="goRoom('games')"></a-text>
 
-  <a-text value="SHOP"
-    color="white"
-    width="4"
-    scale="1.4 1.4 1.4"
-    position="0 0 0"
-    class="clickable"
-    onclick="openShop()"></a-text>
+    <a-text value="SHOP"
+      color="white"
+      width="4"
+      scale="1.4 1.4 1.4"
+      position="0 0 0"
+      class="clickable"
+      onclick="goRoom('shop')"></a-text>
 
-  <a-text value="MAGIC"
-    color="white"
-    width="4"
-    scale="1.4 1.4 1.4"
-    position="1.5 0 0"
-    class="clickable"
-    onclick="openMagic()"></a-text>
+    <a-text value="MAGIC"
+      color="white"
+      width="4"
+      scale="1.4 1.4 1.4"
+      position="1.5 0 0"
+      class="clickable"
+      onclick="goRoom('magic')"></a-text>
 
+  </a-entity>
 </a-entity>
 
-  <!-- PAGES -->
-  <a-entity id="gamesPage" visible="false">
-    <a-text value="🎮 GAMES" color="#ff00ff"></a-text>
-    <a-text value="Back" onclick="showPage('menu')"></a-text>
-  </a-entity>
+<!-- 🎮 GAMES ROOM -->
+<a-entity id="gamesRoom" visible="false">
+  <a-text value="🎮 GAMES ROOM"
+    color="#ff00ff"
+    position="0 1.6 -3"
+    width="8"></a-text>
 
-  <a-entity id="shopPage" visible="false">
-    <a-text value="🛒 SHOP" color="#00ffff"></a-text>
-    <a-text value="Back" onclick="showPage('menu')"></a-text>
-  </a-entity>
+  <a-text value="Back"
+    color="white"
+    position="0 0.8 -3"
+    class="clickable"
+    onclick="goRoom('menu')"></a-text>
+</a-entity>
 
-  <a-entity id="magicPage" visible="false">
-    <a-text value="✨ MAGIC" color="#ffff00"></a-text>
-    <a-text value="Back" onclick="showPage('menu')"></a-text>
-  </a-entity>
+<!-- 🛒 SHOP ROOM -->
+<a-entity id="shopRoom" visible="false">
+  <a-text value="🛒 SHOP ROOM"
+    color="#00ffff"
+    position="0 1.6 -3"
+    width="8"></a-text>
+
+  <a-text value="Back"
+    color="white"
+    position="0 0.8 -3"
+    class="clickable"
+    onclick="goRoom('menu')"></a-text>
+</a-entity>
+
+<!-- ✨ MAGIC ROOM -->
+<a-entity id="magicRoom" visible="false">
+  <a-text value="✨ MAGIC ROOM"
+    color="#ffff00"
+    position="0 1.6 -3"
+    width="8"></a-text>
+
+  <a-text value="Back"
+    color="white"
+    position="0 0.8 -3"
+    class="clickable"
+    onclick="goRoom('menu')"></a-text>
+</a-entity>
 
 </a-scene>
 
@@ -213,7 +242,28 @@ window.addEventListener("DOMContentLoaded", () => {
     world.appendChild(img);
   });
 });
+function goRoom(room) {
+  document.getElementById("menuRoom").setAttribute("visible", false);
+  document.getElementById("gamesRoom").setAttribute("visible", false);
+  document.getElementById("shopRoom").setAttribute("visible", false);
+  document.getElementById("magicRoom").setAttribute("visible", false);
 
+  if (room === "menu") {
+    document.getElementById("menuRoom").setAttribute("visible", true);
+  }
+
+  if (room === "games") {
+    document.getElementById("gamesRoom").setAttribute("visible", true);
+  }
+
+  if (room === "shop") {
+    document.getElementById("shopRoom").setAttribute("visible", true);
+  }
+
+  if (room === "magic") {
+    document.getElementById("magicRoom").setAttribute("visible", true);
+  }
+}
 </script>
 
 </body>
