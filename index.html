@@ -40,11 +40,11 @@
 </a-entity>
   
   <!-- 📦 BANNER -->
-  <a-entity 
-    gltf-model="url(2311bannerstatic.glb)"  
-    position="0.2 3 -3" 
-    scale="2.3 2.3 2.3">
-  </a-entity>
+  <a-entity id="banner" visible="true"
+  gltf-model="url(2311bannerstatic.glb)"  
+  position="0.2 3 -3" 
+  scale="2.3 2.3 2.3">
+</a-entity>
 
   <!-- 🧭 MENU -->
 <!-- 🏠 MENU ROOM -->
@@ -248,20 +248,26 @@ function goRoom(room) {
   document.getElementById("shopRoom").setAttribute("visible", false);
   document.getElementById("magicRoom").setAttribute("visible", false);
 
+  const banner = document.getElementById("banner");
+
   if (room === "menu") {
     document.getElementById("menuRoom").setAttribute("visible", true);
+    banner.setAttribute("visible", true);
   }
 
   if (room === "games") {
     document.getElementById("gamesRoom").setAttribute("visible", true);
+    banner.setAttribute("visible", false);
   }
 
   if (room === "shop") {
     document.getElementById("shopRoom").setAttribute("visible", true);
+    banner.setAttribute("visible", false);
   }
 
   if (room === "magic") {
     document.getElementById("magicRoom").setAttribute("visible", true);
+    banner.setAttribute("visible", false);
   }
 }
 </script>
