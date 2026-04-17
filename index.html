@@ -29,35 +29,35 @@
       </a-entity>
 
       <!-- 📦 BANNER -->
-      <a-entity position="0 2 -4">
-        <a-box width="3" height="1" depth="0.2" color="#000000"></a-box>
-        <a-text value="GLB BANNER AREA"
-                color="#00ffff"
-                align="center"
-                width="6"
-                position="0 0 0.2"></a-text>
-      </a-entity>
+      <a-entity 
+      gltf-model="url(https://redegy.github.io/stackblitz-starters-5waygyix/2311bannerstatic.glb)"  
+  position="0.2 3 -3" 
+  scale="2.3 2.3 2.3">
+</a-entity>
 
       <!-- 🧭 MENU -->
-      <a-entity id="menu" position="0 1.2 -3">
+      <a-entity id="menu" position="-0.3 2 -3">
 
         <a-text value="GAMES"
-                color="#ff00ff"
+                color="white"
                 width="4"
+                scale="1.4 1.4 1.4"
                 position="-1.5 0 0"
                 class="clickable"
                 onclick="showPage('games')"></a-text>
 
         <a-text value="SHOP"
-                color="#00ffff"
+                color="#white"
                 width="4"
+                scale="1.4 1.4 1.4"
                 position="0 0 0"
                 class="clickable"
                 onclick="showPage('shop')"></a-text>
 
         <a-text value="MAGIC"
-                color="#ffff00"
+                color="white"
                 width="4"
+                scale="1.4 1.4 1.4"
                 position="1.5 0 0"
                 class="clickable"
                 onclick="showPage('magic')"></a-text>
@@ -125,21 +125,61 @@
         world.appendChild(box);
       }
 
-      // 🌌 SOFT GLOBAL DRIFT
       let t = 0;
 
-      function animate() {
-        t += 0.00025;
+// 🌌 WORLD DRIFT (kept, but smoother)
+function animateWorld() {
+  t += 0.003;
 
-        world.setAttribute(
-          "position",
-          `${Math.sin(t) * 0.18} ${Math.cos(t * 0.7) * 0.12} ${Math.sin(t * 0.6) * 0.18}`
-        );
+  world.setAttribute(
+    "position",
+    `${Math.sin(t) * 0.18} ${Math.cos(t * 0.7) * 0.12} ${Math.sin(t * 0.6) * 0.18}`
+  );
 
-        requestAnimationFrame(animate);
-      }
+  requestAnimationFrame(animateWorld);
+}
 
-      animate();
+animateWorld();
+      window.addEventListener("DOMContentLoaded", () => {
+  const world = document.getElementById("world");
+
+  const images = [
+    {
+      src: "https://redegy.github.io/stackblitz-starters-5waygyix/845522ef-e685-4e1d-9ba5-af935869f2bf.jpg",
+      position: { x: 0, y: 0, z: -2 },
+      scale: { x: 0.5, y: 0.5, z: 0.5 }
+    },
+    {
+      src: "https://redegy.github.io/stackblitz-starters-5waygyix/845522ef-e685-4e1d-9ba5-af935869f2bf.jpg",
+      position: { x: 6, y: 5, z: -6 },
+      scale: { x: 0.51, y: 0.51, z: 0.51 }
+    }
+    
+  ];
+
+  images.forEach((imgData) => {
+    const img = document.createElement("a-image");
+
+    // POSITION
+    const p = imgData.position;
+    img.setAttribute("position", `${p.x} ${p.y} ${p.z}`);
+
+    // SCALE (IMPORTANT PART YOU ASKED FOR)
+    const s = imgData.scale;
+    img.setAttribute("scale", `${s.x} ${s.y} ${s.z}`);
+
+    // IMAGE SOURCE
+    img.setAttribute("src", imgData.src);
+
+    // FIX BLACK BOX ISSUE
+    img.setAttribute(
+      "material",
+      "shader: flat; transparent: true; side: double"
+    );
+
+    world.appendChild(img);
+  });
+});
     </script>
 
   </body>
