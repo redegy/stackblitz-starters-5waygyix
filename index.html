@@ -25,7 +25,8 @@
 
   <!-- 🎥 CAMERA -->
   <a-entity position="0 1.6 0">
-    <a-camera></a-camera>
+    <a-camera><<a-entity cursor="rayOrigin: mouse"
+          raycaster="objects: .clickable"></a-entity>/a-camera>
   </a-entity>
 
 <a-entity id="rig">
@@ -103,15 +104,29 @@ function showPage(page) {
 
 /* 🎮 NEW: OPEN SUBWAY SURFERS */
 function openGames() {
-  window.open("https://subway-surfers.gg/", "_blank");
+  openURL("https://subway-surfers.gg/");
 }
 
 function openShop() {
-  window.open("https://example.com/shop", "_blank");
+  openURL("https://example.com/shop");
 }
 
 function openMagic() {
-  window.open("https://example.com/magic", "_blank");
+  openURL("https://example.com/magic");
+}
+
+// VR-safe link handler
+function openURL(url) {
+  const isVR = navigator.xr && navigator.xr.isSessionSupported;
+
+  // safest universal method
+  if (document.fullscreenElement || isVR) {
+    // VR/immersive mode fallback
+    window.location.href = url;
+  } else {
+    // normal desktop
+    window.open(url, "_blank");
+  }
 }
 
 // 🌈 WORLD
