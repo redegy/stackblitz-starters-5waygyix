@@ -14,7 +14,7 @@
 
 <body>
 
-<a-scene background="color: black" vr-mode-ui="enabled: true">
+<a-scene background="color: black">
 
   <!-- 🌌 WORLD -->
   <a-entity id="world"></a-entity>
@@ -29,16 +29,12 @@
       <a-entity cursor="rayOrigin: mouse"
                 raycaster="objects: .clickable"></a-entity>
     </a-camera>
-
-    <!-- VR controllers -->
-    <a-entity laser-controls="hand: right"></a-entity>
-    <a-entity laser-controls="hand: left"></a-entity>
   </a-entity>
 
   <!-- 📦 MENU ROOM -->
   <a-entity id="menuRoom" visible="true" position="0 1.6 -3">
 
-    <!-- 📦 GLB BANNER (TOP CENTER) -->
+    <!-- 📦 GLB BANNER -->
     <a-entity id="banner"
       gltf-model="url(2311bannerstatic.glb)"
       position="0 1.3 0"
@@ -46,95 +42,89 @@
     </a-entity>
 
     <!-- 🎮 GAMES -->
-    <a-entity class="clickable" onclick="goRoom('games')"
+    <a-entity class="clickable" data-room="games"
       geometry="primitive: plane; height: 0.6; width: 1.6"
       material="color: black; opacity: 0.01"
       position="-1.8 0 0">
 
-      <a-text value="GAMES"
-        color="white"
-        align="center"
-        width="4"
-        position="0 0 0.01">
-      </a-text>
+      <a-text value="GAMES" color="white" align="center"></a-text>
     </a-entity>
 
     <!-- 🛒 SHOP -->
-    <a-entity class="clickable" onclick="goRoom('shop')"
+    <a-entity class="clickable" data-room="shop"
       geometry="primitive: plane; height: 0.6; width: 1.6"
       material="color: black; opacity: 0.01"
       position="0 0 0">
 
-      <a-text value="SHOP"
-        color="white"
-        align="center"
-        width="4"
-        position="0 0 0.01">
-      </a-text>
+      <a-text value="SHOP" color="white" align="center"></a-text>
     </a-entity>
 
     <!-- ✨ MAGIC -->
-    <a-entity class="clickable" onclick="goRoom('magic')"
+    <a-entity class="clickable" data-room="magic"
       geometry="primitive: plane; height: 0.6; width: 1.6"
       material="color: black; opacity: 0.01"
       position="1.8 0 0">
 
-      <a-text value="MAGIC"
-        color="white"
-        align="center"
-        width="4"
-        position="0 0 0.01">
-      </a-text>
+      <a-text value="MAGIC" color="white" align="center"></a-text>
     </a-entity>
 
   </a-entity>
 
   <!-- 🎮 GAMES ROOM -->
   <a-entity id="gamesRoom" visible="false">
+
     <a-text value="🎮 GAMES ROOM"
       color="#ff00ff"
       position="0 1.6 -3"
-      width="8"
-      align="center"></a-text>
+      align="center"
+      width="8"></a-text>
 
-    <a-text value="Back"
-      class="clickable"
-      onclick="goRoom('menu')"
-      color="white"
-      position="0 0.8 -3"
-      align="center"></a-text>
+    <a-entity class="clickable" data-room="menu"
+      geometry="primitive: plane; height: 0.5; width: 1.2"
+      material="color: black; opacity: 0.01"
+      position="0 0.8 -3">
+
+      <a-text value="BACK" color="white" align="center"></a-text>
+    </a-entity>
+
   </a-entity>
 
   <!-- 🛒 SHOP ROOM -->
   <a-entity id="shopRoom" visible="false">
+
     <a-text value="🛒 SHOP ROOM"
       color="#00ffff"
       position="0 1.6 -3"
-      width="8"
-      align="center"></a-text>
+      align="center"
+      width="8"></a-text>
 
-    <a-text value="Back"
-      class="clickable"
-      onclick="goRoom('menu')"
-      color="white"
-      position="0 0.8 -3"
-      align="center"></a-text>
+    <a-entity class="clickable" data-room="menu"
+      geometry="primitive: plane; height: 0.5; width: 1.2"
+      material="color: black; opacity: 0.01"
+      position="0 0.8 -3">
+
+      <a-text value="BACK" color="white" align="center"></a-text>
+    </a-entity>
+
   </a-entity>
 
   <!-- ✨ MAGIC ROOM -->
   <a-entity id="magicRoom" visible="false">
+
     <a-text value="✨ MAGIC ROOM"
       color="#ffff00"
       position="0 1.6 -3"
-      width="8"
-      align="center"></a-text>
+      align="center"
+      width="8"></a-text>
 
-    <a-text value="Back"
-      class="clickable"
-      onclick="goRoom('menu')"
-      color="white"
-      position="0 0.8 -3"
-      align="center"></a-text>
+    <a-entity class="clickable" data-room="menu"
+      geometry="primitive: plane; height: 0.5; width: 1.2"
+      material="color: black; opacity: 0.01"
+      position="0 0.8 -3">
+
+      <a-text value="BACK" color="white" align="center"></a-text>
+    </a-entity>
+
   </a-entity>
 
 </a-scene>
@@ -172,28 +162,17 @@ function goRoom(room) {
   }
 }
 
-// 🌌 SIMPLE BACKGROUND WORLD (optional, keep your own if you want)
-const world = document.getElementById("world");
+// 🧠 CLICK SYSTEM (FIXES BACK BUTTON + MENU)
+document.addEventListener("DOMContentLoaded", () => {
 
-const colors = ["#ff00ff", "#00ffff", "#ffff00", "#ff8800"];
+  document.querySelectorAll(".clickable").forEach(el => {
+    el.addEventListener("click", () => {
+      const room = el.getAttribute("data-room");
+      if (room) goRoom(room);
+    });
+  });
 
-for (let i = 0; i < 600; i++) {
-  const box = document.createElement("a-box");
-
-  box.setAttribute("position",
-    `${(Math.random()-0.5)*20} ${(Math.random()-0.5)*10} ${(Math.random()-0.5)*20}`
-  );
-
-  const size = Math.random()*0.04 + 0.01;
-
-  box.setAttribute("width", size);
-  box.setAttribute("height", size);
-  box.setAttribute("depth", size);
-
-  box.setAttribute("color", colors[Math.floor(Math.random()*colors.length)]);
-
-  world.appendChild(box);
-}
+});
 
 </script>
 
